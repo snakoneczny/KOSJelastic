@@ -1,6 +1,7 @@
 package uj.ii.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
 import uj.ii.transferobjects.Conference;
 
 public class ConferencesDAO {
 
-    private final DataSource ds;
+    private final String URL = "jdbc:mysql://mysql-kos-ii-uj.jelastic.dogado.eu/kos";
+    private final String login = "root";
+    private final String pass = "pr.dreamteam.pass";
 
-    public ConferencesDAO(DataSource ds) {
-        this.ds = ds;
+    private Connection getConnection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+        return DriverManager.getConnection(URL, login, pass);
     }
 
     public List<Conference> viewConferences(String owner) {
@@ -24,7 +27,7 @@ public class ConferencesDAO {
         Connection con = null;
         PreparedStatement pst = null;
         try {
-            con = ds.getConnection();
+            con = getConnection();
             String sql = "SELECT * FROM conferences WHERE owner=?";
             pst = con.prepareStatement(sql);
             pst.setString(1, owner);
@@ -41,17 +44,20 @@ public class ConferencesDAO {
         } catch (SQLException e) {
             Logger.getLogger(ConferencesDAO.class.getName()).log(Level.SEVERE, null, e);
             return null;
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(ConferencesDAO.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         } finally {
             DbTools.closeQuietly(pst, con);
         }
         return result;
     }
-    
+
     public void addConference(String name, String description, String owner) {
         Connection con = null;
         PreparedStatement pst = null;
         try {
-            con = ds.getConnection();
+            con = getConnection();
             String sql = "INSERT INTO conferences(name, description, owner) VALUES (?, ?, ?)";
             pst = con.prepareStatement(sql);
             pst.setString(1, name);
@@ -60,6 +66,8 @@ public class ConferencesDAO {
             pst.executeUpdate();
             //rs.close();
         } catch (SQLException e) {
+            Logger.getLogger(ConferencesDAO.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ClassNotFoundException e) {
             Logger.getLogger(ConferencesDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DbTools.closeQuietly(pst, con);

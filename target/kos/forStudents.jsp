@@ -47,15 +47,15 @@
                 <h5><a href="http://kos.ii.uj.edu.pl/maestro/" style="text-decoration: none">Maestro Advanced Project</a></h5>
                 <c:choose>
                     <c:when test="${isAuthenticated}">
-                            <form action="/logout" method="post">
-                                <input type="submit" value="Logout">
-                            </form>
+                    <   form action="/logout" method="post">
+                            <input type="submit" value="Logout">
+                        </form>
                     </c:when>
                     <c:otherwise>
                         <nav id="regularMenu" class="menu container">
                             <form action="/login" method="POST">
-                                Login:<br/> <input name="login" type="text" value="${loginHelper.login}" size="20"/><br/> ${loginHelper.loginMessage} <br/>
-                                Password:<br/> <input name="pass" type="password" size="20"/><br/>${loginHelper.passMessage}<br/>
+                                Login: <br/><input name="login" type="text" value="${loginHelper.login}" size="20"/> ${loginHelper.loginMessage} <br/>
+                                Password: <br/><input name="pass" type="password" size="20"/>${loginHelper.passMessage}<br/>
                                 <input type="submit" value="Login"/>
                             </form>
                         </nav>
@@ -65,8 +65,8 @@
         </div>
         <div id="tresc">
 
-            Zaraz tutaj będzie edycja
-
+         Bardzo wazne rzeczy dla studentow   
+            
         </div>
         <div id="footer_main">
             <ul class="linki">

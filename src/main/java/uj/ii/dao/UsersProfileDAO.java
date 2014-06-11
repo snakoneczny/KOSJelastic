@@ -1,6 +1,7 @@
 package uj.ii.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
 import uj.ii.transferobjects.UserProfile;
 
 public class UsersProfileDAO {
 
-    private final DataSource ds;
+    private final String URL = "jdbc:mysql://mysql-kos-ii-uj.jelastic.dogado.eu/kos";
+    private final String login = "root";
+    private final String pass = "pr.dreamteam.pass";
 
-    public UsersProfileDAO(DataSource ds) {
-        this.ds = ds;
+    private Connection getConnection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+        return DriverManager.getConnection(URL, login, pass);
     }
 
     public List<UserProfile> viewUsers() {
@@ -24,7 +27,7 @@ public class UsersProfileDAO {
         Connection con = null;
         PreparedStatement pst = null;
         try {
-            con = ds.getConnection();
+            con = getConnection();
             String sql = "SELECT * FROM users_profile";
             pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
@@ -40,6 +43,9 @@ public class UsersProfileDAO {
         } catch (SQLException e) {
             Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
             return null;
+        }  catch (ClassNotFoundException e) {
+            Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         } finally {
             DbTools.closeQuietly(pst, con);
         }
@@ -52,7 +58,7 @@ public class UsersProfileDAO {
         Connection con = null;
         PreparedStatement pst = null;
         try {
-            con = ds.getConnection();
+            con = getConnection();
             String sql = "SELECT * FROM users_profile WHERE user=?";
             pst = con.prepareStatement(sql);
             pst.setString(1, login);
@@ -76,6 +82,9 @@ public class UsersProfileDAO {
         } catch (SQLException e) {
             Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
             return null;
+        }  catch (ClassNotFoundException e) {
+            Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         } finally {
             DbTools.closeQuietly(pst, con);
         }
@@ -86,7 +95,7 @@ public class UsersProfileDAO {
         Connection con = null;
         PreparedStatement pst = null;
         try {
-            con = ds.getConnection();
+            con = getConnection();
             String sql = "UPDATE users_profile SET email=?, address=?, office=?, phone=?, office_hours=?,"
                     + " main_interests=?, cv=?, first_name=?, last_name=? WHERE user=?";
             pst = con.prepareStatement(sql);
@@ -103,6 +112,8 @@ public class UsersProfileDAO {
             pst.executeUpdate();
             //rs.close();
         } catch (SQLException e) {
+            Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
+        }  catch (ClassNotFoundException e) {
             Logger.getLogger(UsersProfileDAO.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             DbTools.closeQuietly(pst, con);
