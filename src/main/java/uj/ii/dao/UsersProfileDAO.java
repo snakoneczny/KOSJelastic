@@ -13,9 +13,9 @@ import uj.ii.transferobjects.UserProfile;
 
 public class UsersProfileDAO {
 
-    private final String URL = "jdbc:mysql://mysql-kos-ii-uj.jelastic.dogado.eu/kos";
+    private final String URL = "jdbc:mysql://mysql-kosiiuj.jelastic.dogado.eu/kos?useUnicode=true&characterEncoding=utf8";
     private final String login = "root";
-    private final String pass = "pr.dreamteam.pass";
+    private final String pass = "pA4GdgajCJ";
 
     private Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -23,6 +23,7 @@ public class UsersProfileDAO {
     }
 
     public List<UserProfile> viewUsers() {
+        
         List<UserProfile> result = new ArrayList();
         Connection con = null;
         PreparedStatement pst = null;
@@ -31,13 +32,13 @@ public class UsersProfileDAO {
             String sql = "SELECT * FROM users_profile";
             pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-
+            
             while (rs.next()) {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String login = rs.getString("user");
                 result.add(new UserProfile(login, firstName, lastName));
-            }
+            }        
             //rs.close();
 
         } catch (SQLException e) {

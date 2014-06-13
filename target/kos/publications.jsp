@@ -4,7 +4,7 @@
 
 <html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html charset="UTF-8">
         <title>Chair of Optimization and Control</title>
         <link rel="Search" href="adres"/>
         <meta name="author" content="Mateusz Wdowski & Szymon Nakoneczny"/>

@@ -24,27 +24,28 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         processRequest(req, resp);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         processRequest(req, resp);
     }
-    
+
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) {
+
         /**
          * ******** Users ********
          */
         UsersProfileDAO dao = (UsersProfileDAO) req.getServletContext().getAttribute("usersProfileDAO");
         List<UserProfile> users = dao.viewUsers();
         req.setAttribute("users", users);
-        
+
         /**
          * ******** Is authenticated ********
          */
         req.setAttribute("isAuthenticated", req.getSession().getAttribute("user") != null);
-                
+
         RequestDispatcher view = req.getRequestDispatcher("index.jsp");
-        
+
         try {
             view.forward(req, resp);
         } catch (ServletException ex) {

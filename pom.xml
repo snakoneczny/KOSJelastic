@@ -36,7 +36,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.30</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
   
@@ -53,11 +53,12 @@
                     <!--
                      <context>[specify the context if you need it]</context> 
                     -->
-                    <environment>kos-ii-uj</environment>
+                    <environment>kosiiuj</environment>
                     <comment>Katedra Optymalizacji i Sterowania</comment>
                     <api_hoster>app.jelastic.dogado.eu</api_hoster>
                 </configuration>
-            </plugin>     
+            </plugin>  
+            
         </plugins>
     </build>
   

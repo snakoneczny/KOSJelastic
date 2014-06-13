@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 import uj.ii.transferobjects.Publication;
 
 public class PublicationsDAO {
-
-    private final String URL = "jdbc:mysql://mysql-kos-ii-uj.jelastic.dogado.eu/kos";
+  
+    private final String URL = "jdbc:mysql://mysql-kosiiuj.jelastic.dogado.eu/kos?useUnicode=true&characterEncoding=utf8";
     private final String login = "root";
-    private final String pass = "pr.dreamteam.pass";
+    private final String pass = "pA4GdgajCJ";
 
     private Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -23,6 +23,7 @@ public class PublicationsDAO {
     }
 
     public List<Publication> viewPublications(String owner) {
+        
         List<Publication> result = new ArrayList();
         Connection con = null;
         PreparedStatement pst = null;

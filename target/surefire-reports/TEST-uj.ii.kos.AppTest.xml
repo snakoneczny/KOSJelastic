@@ -44,7 +44,7 @@
     <property name="java.vm.specification.version" value="1.7"/>
     <property name="sun.arch.data.model" value="32"/>
     <property name="java.home" value="C:\Program Files (x86)\Java\jdk1.7.0_51\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -e clean install jelastic:deploy"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean install jelastic:deploy"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="pl"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
