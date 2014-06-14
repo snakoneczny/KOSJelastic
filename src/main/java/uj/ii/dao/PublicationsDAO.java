@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import uj.ii.transferobjects.Publication;
 
-public class PublicationsDAO {
+public class PublicationsDAO implements PublicationsDAOInterface {
   
     private final String URL = "jdbc:mysql://mysql-kosiiuj.jelastic.dogado.eu/kos?useUnicode=true&characterEncoding=utf8";
     private final String login = "root";
@@ -24,7 +25,7 @@ public class PublicationsDAO {
 
     public List<Publication> viewPublications(String owner) {
         
-        List<Publication> result = new ArrayList();
+        
         Connection con = null;
         PreparedStatement pst = null;
 
@@ -33,6 +34,7 @@ public class PublicationsDAO {
             String sql = "SELECT * FROM publications WHERE owner=?";
             pst = con.prepareStatement(sql);
             pst.setString(1, owner);
+            List<Publication> result = new ArrayList<Publication>();
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -42,22 +44,23 @@ public class PublicationsDAO {
                 result.add(new Publication(name, description));
 
             }
+            return result;
             //rs.close();
 
         } catch (SQLException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            return new ArrayList<Publication>();
         }  catch (ClassNotFoundException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            return new ArrayList<Publication>();
         } finally {
             DbTools.closeQuietly(pst, con);
         }
-        return result;
+        
     }
 
     public List<Publication> viewAllPublications() {
-        List<Publication> result = new ArrayList();
+        
         Connection con = null;
         PreparedStatement pst = null;
         try {
@@ -65,6 +68,7 @@ public class PublicationsDAO {
             String sql = "SELECT P.name, P.description, U.first_name, U.last_name FROM publications AS P"
                     + " JOIN users_profile AS U ON P.owner = U.user";
             pst = con.prepareStatement(sql);
+            List<Publication> result = new ArrayList<Publication>();
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -76,21 +80,22 @@ public class PublicationsDAO {
                 result.add(new Publication(name, description, firstName, lastName));
 
             }
+            return result;
             //rs.close();
 
         } catch (SQLException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            return new ArrayList<Publication>();
         }  catch (ClassNotFoundException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
-            return null;
+            return new ArrayList<Publication>();
         } finally {
             DbTools.closeQuietly(pst, con);
         }
-        return result;
+        
     }
 
-    public void addPublication(String name, String description, String owner) {
+    public boolean addPublication(String name, String description, String owner) {
         Connection con = null;
         PreparedStatement pst = null;
         try {
@@ -100,12 +105,14 @@ public class PublicationsDAO {
             pst.setString(1, name);
             pst.setString(2, description);
             pst.setString(3, owner);
-            pst.executeUpdate();
+            return pst.execute();
             //rs.close();
         } catch (SQLException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         }  catch (ClassNotFoundException e) {
             Logger.getLogger(PublicationsDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         } finally {
             DbTools.closeQuietly(pst, con);
         }

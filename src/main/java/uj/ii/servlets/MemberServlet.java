@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import uj.ii.dao.PublicationsDAOInterface;
 import uj.ii.dao.UsersProfileDAO;
 import uj.ii.dao.PublicationsDAO;
 import uj.ii.dao.ConferencesDAO;
@@ -49,7 +52,7 @@ public class MemberServlet extends HttpServlet {
         /**
          * ******** Publications ********
          */
-        PublicationsDAO pubDao = (PublicationsDAO) req.getServletContext().getAttribute("publicationsDAO");
+        PublicationsDAOInterface pubDao = (PublicationsDAOInterface) req.getServletContext().getAttribute("publicationsDAO");
         List<Publication> publications = pubDao.viewPublications(login);
         req.setAttribute("publications", publications);
 

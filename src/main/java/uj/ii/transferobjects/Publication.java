@@ -1,8 +1,8 @@
 package uj.ii.transferobjects;
 
-public class Publication {
+public class Publication implements java.io.Serializable {
 
-    private String name;
+	private String name;
     private String description;
     private String owner;
     private String ownerFirstName;

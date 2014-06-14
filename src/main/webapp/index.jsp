@@ -45,22 +45,7 @@
                 <h5><a href="http://kos.ii.uj.edu.pl/contact/index.html" style="text-decoration: none">FP7 People CONTACT
                         Project</a></h5>
                 <h5><a href="http://kos.ii.uj.edu.pl/maestro/" style="text-decoration: none">Maestro Advanced Project</a></h5>
-                <c:choose>
-                    <c:when test="${isAuthenticated}">
-                        <form action="/logout" method="post">
-                            <input type="submit" value="Logout">
-                        </form>
-                    </c:when>
-                    <c:otherwise>
-                        <nav id="regularMenu" class="menu container">
-                            <form action="/login" method="POST">
-                                Login:<br/> <input name="login" type="text" value="${loginHelper.login}" size="20"/> <br/>${loginHelper.loginMessage} <br/>
-                                Password: <br/><input name="pass" type="password" size="20"/><br/>${loginHelper.passMessage}<br/>
-                                <input type="submit" value="Login"/>
-                            </form>
-                        </nav>
-                    </c:otherwise>
-                </c:choose>
+                <%@include file="session_test.jsp" %>
             </ul>
         </div>
         <div id="tresc">
